@@ -16,7 +16,7 @@ RESPICAT_MAGs_v1.0.tar.gz
 
 The genome archive will be deposited in an external archival repository. The final download link will be added here after deposition:
 
-> **Genome archive:** [RESPICAT_MAGs_v1.0.tar.gz — Zenodo link to be added](https://doi.org/10.5281/zenodo.20162797)
+> **Genome archive:** [RESPICAT_MAGs_v1.0.tar.gz](https://doi.org/10.5281/zenodo.20162797)
 
 After extraction, the archive contains public MAG FASTA files named with stable RESPICAT identifiers:
 
