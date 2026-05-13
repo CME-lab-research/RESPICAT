@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/RESPICAT_logo.png" alt="RESPICAT logo" width="500"/>
+</p>
+
 # RESPICAT
 
 **RESPICAT** is a genome catalogue of human respiratory tract prokaryotes. The catalogue provides dereplicated metagenome-assembled genomes (MAGs), genome-level metadata, taxonomic annotations, genome quality summaries, checksum files, and helper scripts for accessing the RESPICAT v1.0 release.

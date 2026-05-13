@@ -21,16 +21,15 @@ set -euo pipefail
 RESPICAT_VERSION="v1.0"
 
 # ---- 2.2 Define default genome archive filename ----
-# This is the compressed archive containing all public RESPICAT MAG FASTA files.
+# Compressed archive containing all public RESPICAT MAG FASTA files.
 DEFAULT_ARCHIVE_FILE="RESPICAT_MAGs_${RESPICAT_VERSION}.tar.gz"
 
 # ---- 2.3 Define default checksum filename ----
-# This file should contain SHA-256 checksums for the genome archive.
+# The SHA-256 checksums for the genome archive.
 DEFAULT_CHECKSUM_FILE="RESPICAT_MAGs_${RESPICAT_VERSION}.sha256"
 
 # ---- 2.4 Allow user-provided file paths ----
-# If the user provides arguments, use them.
-# Otherwise, use the default RESPICAT v1.0 filenames.
+# The default RESPICAT v1.0 filenames.
 ARCHIVE_FILE="${1:-${DEFAULT_ARCHIVE_FILE}}"
 CHECKSUM_FILE="${2:-${DEFAULT_CHECKSUM_FILE}}"
 
@@ -58,7 +57,6 @@ USAGE
 }
 
 # ---- 3.2 Show help if requested ----
-# This keeps the script user-friendly for public release users.
 if [[ "${ARCHIVE_FILE}" == "-h" || "${ARCHIVE_FILE}" == "--help" ]]; then
     print_usage
     exit 0
@@ -70,7 +68,6 @@ fi
 # ============================================================
 
 # ---- 4.1 Check that the genome archive exists ----
-# The checksum cannot be verified if the archive is missing.
 if [[ ! -f "${ARCHIVE_FILE}" ]]; then
     echo "ERROR: Genome archive not found: ${ARCHIVE_FILE}" >&2
     echo "Run download_RESPICAT_MAGs.sh first, or provide the correct archive path." >&2
@@ -78,7 +75,6 @@ if [[ ! -f "${ARCHIVE_FILE}" ]]; then
 fi
 
 # ---- 4.2 Check that the checksum file exists ----
-# The checksum file is required for integrity verification.
 if [[ ! -f "${CHECKSUM_FILE}" ]]; then
     echo "ERROR: Checksum file not found: ${CHECKSUM_FILE}" >&2
     echo "Download the RESPICAT checksum file or provide the correct checksum path." >&2
@@ -91,7 +87,6 @@ fi
 # ============================================================
 
 # ---- 5.1 Prefer sha256sum when available ----
-# sha256sum is standard on most Linux systems.
 if command -v sha256sum >/dev/null 2>&1; then
     CHECKSUM_TOOL="sha256sum"
 
@@ -156,7 +151,6 @@ awk -v archive_path="${ARCHIVE_FILE}" -v archive_name="${ARCHIVE_BASENAME}" '
 # ============================================================
 
 # ---- 7.1 Print verification target ----
-# This makes the script output clear in logs and terminal sessions.
 echo "Verifying RESPICAT genome archive checksum..."
 echo "Archive file:  ${ARCHIVE_FILE}"
 echo "Checksum file: ${CHECKSUM_FILE}"
@@ -168,7 +162,6 @@ if [[ "${CHECKSUM_TOOL}" == "sha256sum" ]]; then
     sha256sum -c "${LOCAL_CHECKSUM_FILE}"
 
 # ---- 7.3 Run checksum verification on macOS ----
-# shasum uses -a 256 to specify SHA-256.
 else
     shasum -a 256 -c "${LOCAL_CHECKSUM_FILE}"
 fi
@@ -179,6 +172,5 @@ fi
 # ============================================================
 
 # ---- 8.1 Print success message ----
-# If the script reaches this point, the checksum matched.
 echo "Checksum verification completed successfully."
 echo "The RESPICAT genome archive appears intact: ${ARCHIVE_FILE}"

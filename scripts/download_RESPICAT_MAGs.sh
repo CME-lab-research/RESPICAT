@@ -169,7 +169,7 @@ echo "Extracting archive into: ${EXTRACT_DIR}"
 tar -xzf "${ARCHIVE_PATH}" -C "${EXTRACT_DIR}"
 
 # ---- 7.2 Count extracted FASTA files ----
-# This gives users a quick sanity check after extraction.
+# Gives users a quick sanity check after extraction.
 N_FASTA=$(find "${EXTRACT_DIR}" -type f \( -name "*.fna" -o -name "*.fasta" \) | wc -l | tr -d ' ')
 
 echo "Number of extracted FASTA files: ${N_FASTA}"
@@ -180,7 +180,7 @@ echo "Number of extracted FASTA files: ${N_FASTA}"
 # ============================================================
 
 # ---- 8.1 Report final file locations ----
-# This tells users where the downloaded archive and extracted genomes are stored.
+# Tells users where the downloaded archive and extracted genomes are stored.
 echo "RESPICAT MAG download completed."
 echo "Archive: ${ARCHIVE_PATH}"
 echo "Extracted genomes: ${EXTRACT_DIR}"

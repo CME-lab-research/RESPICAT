@@ -30,12 +30,10 @@ RESPICAT_global_map_file <- "RESPICAT_MAGs_dRep_Taxonomy_and_Features.txt"
 genome_path <- "./dRep_MAGs_compressed/"
 
 # Directory where renamed public FASTA files will be written.
-# This avoids overwriting the original internal FASTA files.
 public_genome_path <- "./RESPICAT_MAGs_v1.0_public_fasta/"
 
 # ---- 1.3 Check input directory ----
 # Stop early if the genome directory does not exist.
-# This prevents silent failures later during file renaming.
 if (dir.exists(genome_path)) {
     cat("Reading genomes from directory:", genome_path, "\n")
 } else {
@@ -44,7 +42,6 @@ if (dir.exists(genome_path)) {
 
 # ---- 1.4 Create output directory ----
 # Create a separate output directory for public FASTA files.
-# This keeps the original internal files unchanged.
 if (!dir.exists(public_genome_path)) {
     dir.create(
         public_genome_path,
@@ -68,13 +65,11 @@ RESPICAT_global_map_df <- read_tsv(
 
 # ---- 2.2 Add stable public RESPICAT MAG identifiers ----
 # Sort the table before assigning public IDs.
-# This makes the ID assignment reproducible from the same input table.
 RESPICAT_global_map_df <- 
     RESPICAT_global_map_df %>% 
     
     # Arrange by the current internal MAG identifier.
-    # This should be stable and unique for each dereplicated MAG.
-    arrange(
+        arrange(
         Unique_MAG_ID
     ) %>% 
     
@@ -148,8 +143,7 @@ RESPICAT_fasta_rename_map <-
     ) %>% 
     
     # Make sure genome_file only contains the basename.
-    # This protects the code if genome_file contains a path.
-    mutate(
+        mutate(
         original_fasta_filename = basename(genome_file),
         public_fasta_filename = paste0(Public_MAG_ID, ".fna"),
         original_fasta_path = file.path(genome_path, original_fasta_filename),
@@ -168,7 +162,6 @@ if (anyDuplicated(RESPICAT_fasta_rename_map$original_fasta_filename) > 0) {
 }
 
 # ---- 3.6 Check that all mapped FASTA files exist ----
-# This confirms that every MAG in the mapping table has a matching FASTA file.
 missing_fasta_files <- 
     RESPICAT_fasta_rename_map %>% 
     filter(
@@ -181,7 +174,6 @@ if (nrow(missing_fasta_files) > 0) {
 }
 
 # ---- 3.7 Check for unmapped FASTA files in the directory ----
-# This detects FASTA files present in the folder but absent from the mapping table.
 unmapped_fasta_files <- setdiff(
     dRep_genome_fileNames,
     RESPICAT_fasta_rename_map$original_fasta_filename
@@ -196,7 +188,6 @@ if (length(unmapped_fasta_files) > 0) {
 
 # ---- 3.8 Check for existing public FASTA files ----
 # Stop if output files already exist.
-# This prevents accidental overwriting of a previous public release.
 existing_public_files <- 
     RESPICAT_fasta_rename_map %>% 
     filter(
@@ -245,7 +236,6 @@ cat("Copied renamed public FASTA files:", sum(copy_success), "\n")
 # ============================================================
 
 # ---- 5.1 Create public ID mapping table ----
-# This table connects the original internal filenames to public filenames.
 # It should be included with the public RESPICAT release.
 RESPICAT_MAG_id_mapping_v1 <- 
     RESPICAT_global_map_df %>% 
@@ -277,7 +267,6 @@ cat("Saved ID mapping file: RESPICAT_MAG_id_mapping_v1.0.tsv\n")
 # ============================================================
 
 # ---- 6.1 Define a helper function to rename FASTA headers ----
-# This function takes one FASTA file and one Public_MAG_ID.
 # It replaces all FASTA header lines with stable public contig IDs.
 # Example:
 # >old_header_1
@@ -335,8 +324,7 @@ rename_fasta_contig_headers <- function(
     )
     
     # Write first to a temporary file in the same directory.
-    # This avoids corrupting the original file if writing fails midway.
-    temp_fasta_path <- paste0(
+        temp_fasta_path <- paste0(
         fasta_path,
         ".tmp"
     )
@@ -347,8 +335,7 @@ rename_fasta_contig_headers <- function(
     )
     
     # Replace the original public FASTA file with the updated version.
-    # This keeps the filename unchanged but updates the internal headers.
-    rename_success <- file.rename(
+        rename_success <- file.rename(
         from = temp_fasta_path,
         to = fasta_path
     )
@@ -433,7 +420,6 @@ cat(
 # ============================================================
 
 # ---- 7.1 Save number of renamed contigs per MAG ----
-# This file is useful as a sanity check.
 # It records how many contigs were detected and renamed in each MAG.
 write_tsv(
     RESPICAT_contig_rename_summary,
@@ -448,7 +434,6 @@ cat("Saved contig rename summary: RESPICAT_MAG_contig_rename_summary_v1.0.tsv\n"
 # ============================================================
 
 # ---- 8.1 Read the first few headers from the first public FASTA ----
-# This gives a quick visual confirmation that the new header format worked.
 example_public_fasta <- RESPICAT_fasta_rename_map$public_fasta_path[1]
 
 example_headers <- readLines(
@@ -467,7 +452,6 @@ print(example_headers)
 
 
 # ---- 8.2 Confirm that all public FASTA files still exist ----
-# This checks that no file was lost during temporary-file replacement.
 stopifnot(
     all(
         file.exists(RESPICAT_fasta_rename_map$public_fasta_path)
@@ -562,7 +546,6 @@ RESPICAT_MAG_id_mapping_v1_columns <- c(
 # ============================================================
 
 # ---- 10.1 Combine all required column names ----
-# This creates one non-redundant list of all columns needed
 # across the four public TSV files.
 RESPICAT_public_required_columns <- unique(
     c(
@@ -574,7 +557,6 @@ RESPICAT_public_required_columns <- unique(
 )
 
 # ---- 10.2 Check for missing columns in the global map table ----
-# This prevents the script from silently creating incomplete files.
 missing_public_columns <- setdiff(
     RESPICAT_public_required_columns,
     colnames(RESPICAT_global_map_df)
@@ -614,7 +596,6 @@ RESPICAT_fasta_filename_lookup <-
     )
 
 # ---- 11.2 Join public FASTA filenames to the global map ----
-# This makes the metadata files more useful because users can directly
 # connect each MAG ID to the released FASTA file.
 RESPICAT_global_map_public_df <- 
     RESPICAT_global_map_df %>% 
@@ -671,7 +652,6 @@ RESPICAT_MAG_taxonomy_v1 <-
     )
 
 # ---- 12.3 Create quality-summary table ----
-# This file contains public MAG ID and genome quality statistics.
 RESPICAT_MAG_quality_summary_v1 <- 
     RESPICAT_global_map_public_df %>% 
     select(
@@ -681,7 +661,6 @@ RESPICAT_MAG_quality_summary_v1 <-
     )
 
 # ---- 12.4 Create ID-mapping table ----
-# This file links public RESPICAT IDs to original internal identifiers.
 # Include public_fasta_filename so users can connect the mapping table
 # directly to the released FASTA archive.
 RESPICAT_MAG_id_mapping_v1 <- 
@@ -743,7 +722,6 @@ cat(
 )
 
 # ---- 13.4 Check public FASTA files exist on disk ----
-# This confirms that the metadata points to actual files
 # in the public FASTA directory.
 missing_public_fasta_files <- 
     RESPICAT_MAG_metadata_v1 %>% 
@@ -779,7 +757,6 @@ RESPICAT_MAG_quality_summary_v1_file <- "RESPICAT_MAG_quality_summary_v1.0.tsv"
 RESPICAT_MAG_id_mapping_v1_file <- "RESPICAT_MAG_id_mapping_v1.0.tsv"
 
 # ---- 14.2 Save main MAG metadata file ----
-# This is the primary lookup table for most users.
 write_tsv(
     RESPICAT_MAG_metadata_v1,
     RESPICAT_MAG_metadata_v1_file
@@ -792,7 +769,6 @@ cat(
 )
 
 # ---- 14.3 Save MAG taxonomy file ----
-# This file stores only taxonomic annotations.
 write_tsv(
     RESPICAT_MAG_taxonomy_v1,
     RESPICAT_MAG_taxonomy_v1_file
@@ -805,7 +781,6 @@ cat(
 )
 
 # ---- 14.4 Save MAG quality summary file ----
-# This file stores completeness, contamination, genome size,
 # N50, strain heterogeneity, and dereplication score.
 write_tsv(
     RESPICAT_MAG_quality_summary_v1,
@@ -819,7 +794,6 @@ cat(
 )
 
 # ---- 14.5 Save MAG ID mapping file ----
-# This file stores the bridge between public IDs and original IDs.
 write_tsv(
     RESPICAT_MAG_id_mapping_v1,
     RESPICAT_MAG_id_mapping_v1_file
@@ -837,7 +811,6 @@ cat(
 # ============================================================
 
 # ---- 15.1 Summarise generated public files ----
-# This provides a simple completion report at the end of the script.
 RESPICAT_public_file_summary <- tibble(
     file_name = c(
         RESPICAT_MAG_metadata_v1_file,
@@ -860,7 +833,6 @@ RESPICAT_public_file_summary <- tibble(
 )
 
 # ---- 15.2 Print summary table ----
-# This helps confirm that the expected files were generated.
 print(
     RESPICAT_public_file_summary
 )
