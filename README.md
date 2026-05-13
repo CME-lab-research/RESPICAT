@@ -77,6 +77,51 @@ RESPICAT GitHub repo
 | [`scripts/verify_checksums.sh`](scripts/verify_checksums.sh) | Helper script for validating the downloaded genome archive using the SHA-256 checksum file. |
 | [`scripts/prepare_RESPICAT_MAG_release.R`](scripts/prepare_RESPICAT_MAG_release.R) | R script used to prepare public MAG identifiers, rename FASTA files, rename contig headers, and generate public metadata files. |
 
+## Downloading the helper scripts
+
+The RESPICAT helper scripts are available in the [`scripts/`](scripts/) directory.
+
+```text
+scripts/
+├── download_RESPICAT_MAGs.sh
+├── verify_checksums.sh
+└── prepare_RESPICAT_MAG_release.R
+```
+
+#### Option 1: Download from the browser
+To download an individual script:
+
+1. Open the [`scripts/`](scripts/) directory.
+2. Click the script you want to download, for example `download_RESPICAT_MAGs.sh`.
+3. Click Raw.
+4. Right-click on the page and choose `Save as`.
+5. Save the file with the same filename, for example: `download_RESPICAT_MAGs.sh`
+
+#### Option 2: Download scripts from the command line
+Users familiar with the terminal can download the scripts directly.
+
+```bash
+# Download the genome archive helper script
+curl -L -o download_RESPICAT_MAGs.sh \
+  https://raw.githubusercontent.com/CME-lab-research/RESPICAT/main/scripts/download_RESPICAT_MAGs.sh
+
+# Download the checksum verification script
+curl -L -o verify_checksums.sh \
+  https://raw.githubusercontent.com/CME-lab-research/RESPICAT/main/scripts/verify_checksums.sh
+```
+
+After downloading, make the scripts executable:
+```bash
+chmod +x download_RESPICAT_MAGs.sh
+chmod +x verify_checksums.sh
+```
+
+Then run:
+```bash
+./download_RESPICAT_MAGs.sh
+./verify_checksums.sh
+```
+
 ### Documentation
 
 | File | Description |
@@ -110,8 +155,14 @@ sha256sum -c checksums/RESPICAT_MAGs_v1.0.sha256
 Alternatively, use the helper script:
 
 ```bash
+# Run as
 bash scripts/verify_checksums.sh
+
+# Or run with explicit paths
+bash verify_checksums.sh RESPICAT_MAGs_v1.0.tar.gz checksums/RESPICAT_MAGs_v1.0.sha256
 ```
+
+It supports both `sha256sum` on Linux and `shasum -a 256` on macOS.
 
 ## Data availability
 
