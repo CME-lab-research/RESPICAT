@@ -2,7 +2,7 @@
   <img src="assets/RESPICAT_logo.png" alt="RESPICAT logo" width="500"/>
 </p>
 
-# RESPICAT
+# About
 
 **RESPICAT** is a genome catalogue of human respiratory tract prokaryotes. The catalogue provides dereplicated metagenome-assembled genomes (MAGs), genome-level metadata, taxonomic annotations, genome quality summaries, checksum files, and helper scripts for accessing the RESPICAT v1.0 release.
 
@@ -16,7 +16,7 @@ RESPICAT_MAGs_v1.0.tar.gz
 
 The genome archive will be deposited in an external archival repository. The final download link will be added here after deposition:
 
-> **Genome archive:** [RESPICAT_MAGs_v1.0.tar.gz — Zenodo link to be added](https://doi.org/10.5281/zenodo.XXXXXXX)
+> **Genome archive:** [RESPICAT_MAGs_v1.0.tar.gz — Zenodo link to be added](https://doi.org/10.5281/zenodo.20162797)
 
 After extraction, the archive contains public MAG FASTA files named with stable RESPICAT identifiers:
 
@@ -176,7 +176,7 @@ Reused public metagenomic datasets were retrieved from ENA/SRA. The list of reus
 
 The RESPICAT v1.0 MAG genome archive will be made available through an external archival repository:
 
-> **Archive link:** [Zenodo DOI/link to be added](https://doi.org/10.5281/zenodo.XXXXXXX)
+> **Archive link:** [Zenodo DOI/link to be added](https://doi.org/10.5281/zenodo.20162797)
 
 ## Citation
 
