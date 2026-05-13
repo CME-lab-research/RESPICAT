@@ -1,0 +1,20 @@
+# Specify files to not upload
+
+# Ignore raw data files
+*.fastq.gz
+*.bam
+*.fasta
+*.ignore
+
+# Ignore output figures
+*.png
+*.pdf
+
+# Ignore R  Python temporary files
+.Rhistory
+.Rproj.user
+.pyc
+__pycache__
+
+# Ignore other analysis
+
