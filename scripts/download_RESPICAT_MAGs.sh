@@ -17,7 +17,7 @@ set -euo pipefail
 
 # ---- 2.1 Define RESPICAT release version ----
 # Update this value when preparing a new RESPICAT release.
-RESPICAT_VERSION="v1.0"
+RESPICAT_VERSION="v1"
 
 # ---- 2.2 Define genome archive filename ----
 # This is the expected name of the compressed MAG archive.
@@ -29,12 +29,12 @@ ARCHIVE_NAME="RESPICAT_MAGs_${RESPICAT_VERSION}.tar.gz"
 # https://zenodo.org/records/<ZENODO_RECORD_ID>/files/RESPICAT_MAGs_v1.0.tar.gz?download=1
 
 # Replace the placeholder URL below after uploading the archive to Zenodo.
-ZENODO_URL="https://zenodo.org/records/<ZENODO_RECORD_ID>/files/${ARCHIVE_NAME}?download=1"
+ZENODO_URL="https://zenodo.org/records/20162797/files/${ARCHIVE_NAME}?download=1"
 
 # ---- 2.4 Define checksum URL ----
 # This assumes the checksum file is stored in the GitHub repository.
 # Replace <ORG_OR_USER> and <REPO_NAME> after the repository is public.
-CHECKSUM_URL="https://raw.githubusercontent.com/<ORG_OR_USER>/<REPO_NAME>/main/checksums/RESPICAT_MAGs_${RESPICAT_VERSION}.sha256"
+CHECKSUM_URL="https://zenodo.org/records/20162797/files/RESPICAT_MAGs_${RESPICAT_VERSION}.sha256?download=1"
 
 # ---- 2.5 Define local output directory ----
 # Users can pass a custom output directory as the first command-line argument.

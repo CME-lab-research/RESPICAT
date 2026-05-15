@@ -176,7 +176,7 @@ Reused public metagenomic datasets were retrieved from ENA/SRA. The list of reus
 
 The RESPICAT v1.0 MAG genome archive will be made available through an external archival repository:
 
-> **Archive link:** [Zenodo DOI/link to be added](https://doi.org/10.5281/zenodo.20162797)
+> **Archive link:** [Zenodo DOI](https://doi.org/10.5281/zenodo.20162797)
 
 ## Citation
 
